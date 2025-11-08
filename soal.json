@@ -1,0 +1,22 @@
+[
+  {
+    "id": "level_1",
+    "level": 1,
+    "difficulty": "Mudah",
+    "words": ["MEJA","GURU","MATEMATIKA","ANGKA","HITUNGAN","HASIL","UJIAN","NILAI","RAPOR","SEKOLAH"],
+    "openSlots": [0,9],
+    "clues": [null,"4 Huruf","11 Huruf","5 Huruf","8 Huruf","5 Huruf","5 Huruf","5 Huruf","5 Huruf",null]
+  },
+  {
+    "id": "level_2",
+    "level": 2,
+    "difficulty": "Mudah",
+    "words": ["PENSIL","PENGASAH","MEJA","BELAJAR","BUKU","CATATAN","TULIS","TINTA","PENA","KANTOR"],
+    "openSlots": [0,9],
+    "clues": [null,"8 Huruf","4 Huruf","7 Huruf","4 Huruf","7 Huruf","5 Huruf","5 Huruf","4 Huruf",null]
+  },
+  {
+    "id": "level_3",
+    "level": 3,
+    "difficulty": "Sedang",
+    "words": ["SEPAK","BOLA","LAPANGAN","RUMPUT","HIJAU]()
