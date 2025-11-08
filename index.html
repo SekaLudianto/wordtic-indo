@@ -46,7 +46,7 @@
             scrollbar-width: none;
         }
 
-        /* --- PERUBAHAN: CSS UNTUK FEEDBACK --- */
+        /* --- CSS UNTUK FEEDBACK --- */
         .cell-correct {
             color: #16a34a; /* green-700 */
             border-color: #4ade80; /* green-400 */
@@ -84,24 +84,17 @@
     <!-- ============================================= -->
     <!--     LAYAR HOME (PILIH PUZZLE)                 -->
     <!-- ============================================= -->
-    <div id="home-screen" class="w-full min-h-screen p-6">
-        <header class="max-w-3xl mx-auto text-center mb-8">
-            <h1 class="text-4xl font-bold text-orange-600 mb-2">Crostic Indonesia</h1>
-            <p class="text-lg text-slate-600">Ungkap fakta menarik lewat teka-teki silang!</p>
-        </header>
+    <!-- PERBAIKAN: Tampilan home baru yang lebih simpel -->
+    <div id="home-screen" class="w-full min-h-screen p-6 flex items-center justify-center">
+        <main class="max-w-md w-full mx-auto space-y-6 bg-white p-8 rounded-2xl shadow-xl">
+            <header class="text-center">
+                <h1 class="text-4xl font-bold text-orange-600 mb-2">Crostic Indonesia</h1>
+                <p class="text-lg text-slate-600">Ungkap fakta menarik lewat teka-teki!</p>
+            </header>
 
-        <main class="max-w-3xl mx-auto space-y-8">
-            <!-- Daily Puzzle -->
+            <!-- Koneksi TikTok -->
             <section>
-                <h2 class="text-2xl font-semibold text-slate-800 mb-4 pb-2 border-b-2 border-orange-200">Puzzle Harian</h2>
-                <div id="daily-puzzle-container">
-                    <!-- Konten di-generate oleh JS -->
-                </div>
-            </section>
-
-            <!-- TAMBAHAN: Koneksi TikTok -->
-            <section class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-2xl font-semibold text-slate-800 mb-4 text-center">Hubungkan ke TikTok LIVE</h2>
+                <h2 class="text-xl font-semibold text-slate-800 mb-4 text-center">Hubungkan ke TikTok LIVE</h2>
                 <div class="flex flex-col sm:flex-row items-center gap-4">
                     <input type="text" id="tiktok-username" placeholder="@username" class="flex-grow w-full bg-slate-100 text-slate-900 placeholder-slate-400 border-2 border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 outline-none">
                     <button data-action="connect-tiktok" id="connect-button" class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
@@ -111,9 +104,12 @@
                 <div id="tiktok-status" class="text-center text-sm text-slate-600 mt-3 h-5">Belum terhubung.</div>
             </section>
 
-            <!-- Daftar Pack -->
-            <section id="pack-list-container" class="space-y-6">
-                <!-- Konten di-generate oleh JS -->
+            <!-- Tombol Mulai -->
+            <section>
+                <button data-action="start-game" id="start-game-button" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-slate-300 disabled:cursor-not-allowed disabled:hover:scale-100">
+                    Mulai Main
+                </button>
+                <p id="game-status" class="text-center text-sm text-slate-500 mt-3 h-5"></p>
             </section>
         </main>
     </div>
@@ -146,6 +142,16 @@
             </div>
         </header>
 
+        <!-- Mode Simulasi -->
+        <div id="simulation-mode-container" class="w-full max-w-3xl mx-auto px-4 pt-0 pb-2 hidden">
+            <div class="flex items-center gap-2 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
+                <input type="text" id="sim-comment" placeholder="Simulasi komen (misal: 1. A)" class="flex-grow bg-slate-100 text-sm rounded-md px-3 py-2 border border-slate-300 focus:ring-2 focus:ring-orange-500 outline-none">
+                <button data-action="sim-send" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-md text-sm">
+                    Kirim
+                </button>
+            </div>
+        </div>
+
         <!-- Grid Fakta (Atas) -->
         <div id="fact-grid-container" class="w-full max-w-3xl mx-auto px-4 py-2 md:py-4">
             <div class="p-4 bg-white rounded-lg shadow-sm">
@@ -153,16 +159,15 @@
             </div>
         </div>
 
-        <!-- MODIFIKASI: Wrapper untuk Clue List & Chat -->
+        <!-- Wrapper untuk Clue List -->
         <div class="flex-1 w-full max-w-3xl mx-auto px-4 overflow-y-hidden pb-4 flex flex-col md:flex-row md:gap-4">
             
             <!-- Kolom Clue -->
-            <!-- PERUBAHAN: Mengubah tata letak menjadi 2 kolom di mobile (grid-cols-2) -->
-            <div id="clue-list-container" class="w-full h-full md:w-2/3 overflow-y-auto grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 pr-2">
+            <div id="clue-list-container" class="w-full h-full overflow-y-auto grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 pr-2">
                 <!-- Daftar Clue di-generate oleh JS -->
             </div>
 
-            <!-- Kolom Chat TikTok -->
+            <!-- Kolom Chat TikTok (Selalu tersembunyi, hanya untuk referensi) -->
             <div id="tiktok-chat-container" class="w-full md:w-1/3 h-[50%] md:h-full bg-white rounded-lg shadow-sm p-3 flex-col mt-4 md:mt-0 hidden">
                 <h3 class="text-lg font-semibold text-center mb-2 pb-2 border-b">Komentar TikTok LIVE</h3>
                 <div id="chat-log" class="flex-grow overflow-y-auto space-y-2 text-sm">
@@ -171,9 +176,6 @@
             </div>
 
         </div>
-
-        <!-- PERUBAHAN: Keyboard Container Dihapus -->
-        <!-- <div id="keyboard-container" ...> ... </div> -->
 
     </div>
 
@@ -208,12 +210,17 @@
             <p id="completion-fact" class="text-base md:text-lg font-semibold text-orange-600 bg-orange-50 p-4 rounded-lg mb-6">
                 <!-- Fakta oleh JS -->
             </p>
-            <div class="flex flex-col md:flex-row gap-3">
-                <button data-action="share-wa" class="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-green-500 text-white font-semibold hover:bg-green-600 transition-colors">
-                    <i data-lucide="share-2" class="w-4 h-4"></i>
-                    Bagikan Fakta
-                </button>
-                <button data-action="go-home" class="flex-1 px-5 py-3 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors">
+            <!-- PERUBAHAN: Tombol dihilangkan, diganti prompt !next -->
+            <div id="next-level-prompt">
+                <p class="text-base text-slate-800 font-semibold animate-pulse">
+                    Ketik <code class="bg-slate-200 text-red-600 px-2 py-1 rounded-md">!next</code> di chat untuk lanjut!
+                </p>
+            </div>
+            <div id="all-complete-prompt" class="hidden">
+                <p class="text-lg text-green-700 font-semibold mb-4">
+                    Anda telah menyelesaikan semua level!
+                </p>
+                <button data-action="go-home" class="w-full px-5 py-3 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors">
                     Kembali ke Home
                 </button>
             </div>
@@ -225,7 +232,6 @@
     <!-- ============================================= -->
     <script type="module">
         // --- TAMBAHAN: Kelas TikTokIOConnection ---
-        // Diambil dari file connection.js server Anda
         class TikTokIOConnection {
             constructor(backendUrl) {
                 this.socket = io(backendUrl);
@@ -234,7 +240,6 @@
 
                 this.socket.on('connect', () => {
                     console.info("Socket connected!");
-                    // Reconnect to streamer if uniqueId already set
                     if (this.uniqueId) {
                         this.setUniqueId();
                     }
@@ -258,15 +263,13 @@
             }
 
             connect(uniqueId, options) {
-                this.uniqueId = uniqueId.replace(/^@/, ''); // Hapus @ jika ada
+                this.uniqueId = uniqueId.replace(/^@/, '');
                 this.options = options || {};
-
                 this.setUniqueId();
 
                 return new Promise((resolve, reject) => {
                     this.socket.once('tiktokConnected', resolve);
                     this.socket.once('tiktokDisconnected', reject);
-
                     setTimeout(() => {
                         reject('Connection Timeout');
                     }, 15000)
@@ -283,149 +286,69 @@
         }
 
         // --- 1. DATA PUZZLE (MOCK) ---
+        // PERUBAHAN: Data puzzle baru yang lebih pendek dan sulit
         const allPuzzles = [
           {
-            id: 'menarik_1',
-            pack: 'Menarik',
+            id: 'level_1',
+            pack: 'Fakta Singkat',
             level: 1,
-            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
-            secretPhrase: 'BURUNG KUKUK DIKENAL SUKA BERTELUR DI SARANG BURUNG LAIN',
-            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
-            fact: 'Spesies burung kukuk tertentu memiliki perilaku unik yang disebut parasitisme induk. Ini berarti BURUNG KUKUK DIKENAL SUKA BERTELUR DI SARANG BURUNG LAIN, menipu burung inang untuk membesarkan anaknya.',
-            author: 'A. Penulis',
+            secretPhrase: 'CAHAYA LEBIH CEPAT',
+            fact: 'Meskipun suara kencang, CAHAYA LEBIH CEPAT bergerak, itulah mengapa kita melihat kilat sebelum mendengar guntur.',
+            author: 'Crostic',
             grid: [
-              [1, 2, 3, 4, 5, 6, null, 7, 2, 7, 2, 7],
-              [8, 9, 7, 10, 11, 12, null, 13, 2, 7, 14],
-              [1, 10, 3, 15, 10, 12, 16, 17, null, 8, 9],
-              [13, 14, 3, 4, 5, 6, null, 12, 14, 9, 5],
+              [1, 2, 3, 2, 4, 2, null, 5, 6, 7, 8, 3],
+              [1, 6, 9, 2, 10, null, 1, 6, 9, 2, 10]
             ],
             clues: [
-              { text: 'Olesan sari buah pada roti', answer: 'SELAI', cells: [13, 10, 12, 14, 9], },
-              { text: 'Mengeluarkan cairan dengan memijit', answer: 'PERAS', cells: [11, 10, 3, 14, 13], },
-              { text: 'Rasa buah dalam botol', answer: 'JUS', cells: [16, 2, 13], },
-              { text: 'Penutup rumah paling atas', answer: 'GENTENG', cells: [6, 10, 5, 15, 10, 5, 6], },
-              { text: 'Tidak dekat', answer: 'JAUH', cells: [16, 14, 2, 17], },
-              { text: 'Organ untuk melihat', answer: 'MATA', cells: [1, 14, 15, 14], },
-              { text: 'Antonim dari "luar"', answer: 'DALAM', cells: [8, 14, 12, 14, 1], },
-              { text: 'Hewan peliharaan yang mengeong', answer: 'KUCING', cells: [7, 2, 4, 9, 5, 6], },
+              { text: 'Tidak di... (melainkan di luar)', answer: 'DALAM', cells: [7, 2, 5, 2, 1] },
+              { text: 'A... api (panas)', answer: 'BARA', cells: [6, 2, 3, 2] },
+              { text: 'Alat musik petik dari Spanyol', answer: 'GITAR', cells: [10, 8, 10, 2, 3] },
+              { text: 'Saya (Inggris)', answer: 'I', cells: [8] },
+              { text: 'Lawan dari "stop"', answer: 'PLAY', cells: [9, 5, 2, 4] }
             ],
           },
           {
-            id: 'sejarah_1',
-            pack: 'Sejarah',
-            level: 1,
-            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
-            secretPhrase: 'CANDI BOROBUDUR ADALAH MONUMEN BUDDHA TERBESAR DI DUNIA',
-            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
-            fact: 'Dibangun pada abad ke-9, CANDI BOROBUDUR ADALAH MONUMEN BUDDHA TERBESAR DI DUNIA dan diakui sebagai Situs Warisan Dunia UNESCO.',
-            author: 'B. Sejarawan',
+            id: 'level_2',
+            pack: 'Fakta Singkat',
+            level: 2,
+            secretPhrase: 'KOPI DARI BIJI',
+            fact: 'Banyak yang salah kira, KOPI DARI BIJI yang sebenarnya adalah biji dari buah ceri kopi yang dikeringkan dan dipanggang.',
+            author: 'Crostic',
             grid: [
-              [1, 2, 3, 4, 9, null, 1, 5, 6, 5, 1, 2, 4, 7, 6],
-              [2, 4, 2, 10, 2, 11, null, 12, 5, 3, 7, 12, 13, 3],
-              [1, 7, 4, 4, 11, 2, null, 14, 13, 6, 1, 13, 15, 2, 6],
-              [4, 9, null, 4, 7, 3, 9, 2],
+              [1, 2, 3, 4, null, 5, 2, 6, 4],
+              [7, 4, 8, 4, null, 1, 2, 3, 4]
             ],
             clues: [
-              { text: 'Ibukota provinsi Jawa Tengah', answer: 'SEMARANG', cells: [15, 13, 12, 2, 6, 2, 3, 5], },
-              { text: 'Negara kepulauan di Asia Tenggara', answer: 'INDONESIA', cells: [9, 3, 4, 5, 3, 13, 15, 9, 2], },
-              { text: 'Pulau tempat Candi Borobudur berada', answer: 'JAWA', cells: [10, 2, 1, 2], },
-              { text: 'Agama yang terkait dengan Candi Borobudur', answer: 'BUDDHA', cells: [1, 7, 4, 4, 11, 2], },
-              { text: 'Bahan utama pembuat candi', answer: 'BATU', cells: [1, 2, 14, 7], },
-              { text: 'Gelar bagi orang yang telah mencapai pencerahan (Buddha)', answer: 'ARHAT', cells: [2, 6, 11, 2, 14], },
-              { text: 'Struktur candi yang berbentuk lonceng', answer: 'STUPA', cells: [15, 14, 7, 11, 2], },
+              { text: 'Segala sesuatu yang... (hidup)', answer: 'BERNYAWA', cells: [7, 6, 2, 1, 4, 2, 3, 2] },
+              { text: 'Batang pohon yang besar', answer: 'POKOK', cells: [3, 2, 1, 2, 1] },
+              { text: 'Tempat menyimpan uang', answer: 'BANK', cells: [7, 2, 1, 1] },
+              { text: 'Tidur (Inggris)', answer: 'BOBO', cells: [7, 2, 7, 2] },
+              { text: 'U... (panggilan untuk pria)', answer: 'BRO', cells: [7, 6, 2] },
+              { text: 'Bahan pembuat tahu', answer: 'KEDELAI', cells: [1, 5, 5, 6, 2, 4] },
             ],
           },
-          // --- DATA PUZZLE BARU ---
           {
-            "id": "sains_1",
-            "pack": "Sains",
-            "level": 1,
-            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
-            "secretPhrase": "SIDIK JARI SETIAP ORANG BERBEDA DAN UNIK",
-            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
-            "fact": "Pola pada kulit jari manusia, atau SIDIK JARI SETIAP ORANG BERBEDA DAN UNIK, bahkan untuk kembar identik sekalipun.",
-            "author": "C. Saintis",
-            "grid": [
-              [1, 2, 3, 2, 4, null, 5, 6, 7, 2],
-              [1, 8, 9, 2, 6, 10, null, 11, 7, 6, 12, 13],
-              [14, 8, 7, 14, 8, 3, 6, null, 3, 6, 12],
-              [15, 12, 2, 4]
+            id: 'level_3',
+            pack: 'Fakta Singkat',
+            level: 3,
+            secretPhrase: 'MADU TIDAK BASI',
+            fact: 'Karena kadar gula tinggi dan keasamannya, MADU TIDAK BASI dan bisa bertahan ribuan tahun jika disimpan dengan benar.',
+            author: 'Crostic',
+            grid: [
+              [1, 2, 3, 4, null, 5, 6, 3, 2, 7],
+              [8, 2, 9, 6, null, 1, 2, 3, 4]
             ],
-            "clues": [
-              { "text": "Bagian tubuh untuk berjalan", "answer": "KAKI", "cells": [4, 6, 4, 2] },
-              { "text": "Tanaman penghasil gula", "answer": "TEBU", "cells": [9, 8, 14, 15] },
-              { "text": "Alat tulis dengan tinta", "answer": "PENA", "cells": [10, 8, 12, 6] },
-              { "text": "Raja hutan", "answer": "SINGA", "cells": [1, 2, 12, 13, 6] },
-              { "text": "Organ pernapasan ikan", "answer": "INSANG", "cells": [2, 12, 1, 6, 12, 13] },
-              { "text": "Daging yang dipanggang dengan tusuk", "answer": "SATE", "cells": [1, 6, 9, 8] },
-              { "text": "Beras yang sudah dimasak", "answer": "NASI", "cells": [12, 6, 1, 2] },
-              { "text": "Pintu (Inggris)", "answer": "DOOR", "cells": [3, 11, 11, 7] },
-              { "text": "Bulan keenam", "answer": "JUNI", "cells": [5, 15, 12, 2] }
-            ]
-          },
-          {
-            "id": "teknologi_1",
-            "pack": "Teknologi",
-            "level": 1,
-            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
-            "secretPhrase": "INTERNET MENGHUBUNGKAN JUTAAN KOMPUTER DI SELURUH DUNIA",
-            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
-            "fact": "Apa yang dimulai sebagai proyek militer AS (ARPANET) kini telah berevolusi menjadi INTERNET MENGHUBUNGKAN JUTAAN KOMPUTER DI SELURUH DUNIA secara instan.",
-            "author": "D. Programer",
-            "grid": [
-              [1, 2, 3, 4, 5, 2, 4, 3],
-              [6, 4, 2, 7, 8, 9, 10, 9, 2, 7, 11, 12, 2],
-              [13, 9, 3, 12, 12, 2, null, 11, 14, 6, 15, 9, 3, 4, 5],
-              [16, 1, null, 17, 4, 18, 9, 5, 9, 8],
-              [16, 9, 2, 1, 12]
+            clues: [
+              { text: 'I... (hewan air)', answer: 'IKAN', cells: [6, 7, 2, 1] },
+              { text: 'Bahan bakar kendaraan', answer: 'BENSIN', cells: [8, 9, 1, 9, 6, 1] },
+              { text: 'Alat musik pukul', answer: 'DRUM', cells: [3, 3, 4, 1] },
+              { text: 'Lawan dari "sedih"', answer: 'TAWA', cells: [5, 2, 3, 2] },
+              { text: 'Sangat kecil', answer: 'MIKRO', cells: [1, 6, 7, 3, 2] },
             ],
-            "clues": [
-              { "text": "Alat penunjuk di komputer", "answer": "MOUSE", "cells": [6, 14, 9, 17, 4] },
-              { "text": "Satu (Inggris)", "answer": "ONE", "cells": [14, 2, 4] },
-              { "text": "Rumah (Inggris)", "answer": "HOME", "cells": [8, 14, 6, 4] },
-              { "text": "Buku (Inggris)", "answer": "BOOK", "cells": [10, 14, 14, 11] },
-              { "text": "Menyimpan data di komputer", "answer": "SIMPAN", "cells": [17, 1, 6, 15, 12, 2] },
-              { "text": "Makan (Inggris)", "answer": "EAT", "cells": [4, 12, 3] },
-              { "text": "Warna merah (Inggris)", "answer": "RED", "cells": [5, 4, 16] },
-              { "text": "Jaring (Inggris)", "answer": "NET", "cells": [2, 4, 3] },
-              { "text": "Lampu (Inggris)", "answer": "LAMP", "cells": [18, 12, 6, 15] },
-              { "text": "Menggunakan (Inggris)", "answer": "USE", "cells": [9, 17, 4] },
-              { "text": "Permainan (Inggris)", "answer": "GAME", "cells": [7, 12, 6, 4] },
-              { "text": "Bercanda (Inggris)", "answer": "JOKE", "cells": [13, 14, 11, 4] }
-            ]
-          },
-          {
-            "id": "sejarah_2",
-            "pack": "Sejarah",
-            "level": 2,
-            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
-            "secretPhrase": "KOMODO ADALAH KADAL TERBESAR YANG HANYA ADA DI INDONESIA",
-            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
-            "fact": "Hewan purba yang sering disebut \"dinosaurus terakhir\", KOMODO ADALAH KADAL TERBESAR YANG HANYA ADA DI INDONESIA, khususnya di Kepulauan Sunda Kecil.",
-            "author": "B. Sejarawan",
-            "grid": [
-              [1, 2, 3, 2, 4, 2, null, 5, 4, 5, 6, 5, 7],
-              [1, 5, 4, 5, 6, null, 8, 9, 10, 11, 9, 12, 5, 10],
-              [13, 5, 14, 15, null, 7, 5, 14, 13, 5, null, 5, 4, 5],
-              [4, 16, null, 16, 14, 4, 2, 14, 9, 12, 16, 5]
-            ],
-            "clues": [
-              { "text": "Hari (Inggris)", "answer": "DAY", "cells": [4, 5, 13] },
-              { "text": "Sepuluh (Inggris)", "answer": "TEN", "cells": [8, 9, 14] },
-              { "text": "Besar (Inggris)", "answer": "BIG", "cells": [11, 16, 15] },
-              { "text": "Anak laki-laki (Inggris)", "answer": "SON", "cells": [12, 2, 14] },
-              { "text": "Dia (laki-laki) (Inggris)", "answer": "HE", "cells": [7, 9] },
-              { "text": "Kunci (Inggris)", "answer": "KEY", "cells": [1, 9, 13] },
-              { "text": "Tua (Inggris)", "answer": "OLD", "cells": [2, 6, 4] },
-              { "text": "Laut (Inggris)", "answer": "SEA", "cells": [12, 9, 5] },
-              { "text": "Saya (Inggris)", "answer": "ME", "cells": [3, 9] },
-              { "text": "Merah (Inggris)", "answer": "RED", "cells": [10, 9, 4] }
-            ]
           }
         ];
 
-        const KEY_ROWS = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
-        const STORAGE_KEY = 'crostic-indonesia-save';
+        const STORAGE_KEY = 'crostic-indonesia-save-v2'; // v2 untuk data baru
         
         // --- 2. STATE APLIKASI ---
         let state = {
@@ -444,8 +367,9 @@
         // --- 3. DOM SELECTORS ---
         const homeScreen = document.getElementById('home-screen');
         const puzzleScreen = document.getElementById('puzzle-screen');
-        const dailyPuzzleContainer = document.getElementById('daily-puzzle-container');
-        const packListContainer = document.getElementById('pack-list-container');
+        // PERUBAHAN: Selector home baru
+        const startGameButton = document.getElementById('start-game-button');
+        const gameStatus = document.getElementById('game-status');
         
         const headerPackName = document.getElementById('header-pack-name');
         const hintIconContainer = document.getElementById('hint-icon-container');
@@ -454,15 +378,14 @@
 
         const factGridContainer = document.getElementById('fact-grid-container').firstElementChild;
         const clueListContainer = document.getElementById('clue-list-container');
-        // PERUBAHAN: Keyboard Container Dihapus
-        // const keyboardContainer = document.getElementById('keyboard-container');
 
-        // --- TAMBAHAN: DOM Selector TikTok ---
         const tiktokUsername = document.getElementById('tiktok-username');
         const connectButton = document.getElementById('connect-button');
         const tiktokStatus = document.getElementById('tiktok-status');
         const tiktokChatContainer = document.getElementById('tiktok-chat-container');
         const chatLog = document.getElementById('chat-log');
+
+        const simContainer = document.getElementById('simulation-mode-container');
 
         const infoModal = document.getElementById('info-modal');
         const infoPack = document.getElementById('info-pack');
@@ -471,6 +394,9 @@
 
         const completionModal = document.getElementById('completion-modal');
         const completionFact = document.getElementById('completion-fact');
+        // PERUBAHAN: Selector prompt !next
+        const nextLevelPrompt = document.getElementById('next-level-prompt');
+        const allCompletePrompt = document.getElementById('all-complete-prompt');
         
         // --- 4. FUNGSI UTAMA ---
 
@@ -478,9 +404,10 @@
          * Menginisialisasi aplikasi
          */
         function init() {
-            renderHomeScreen();
+            // renderHomeScreen(); // Dihapus, diganti updateHomeUI
             setupGlobalListeners();
-            loadState();
+            loadState(); // loadState akan memanggil updateHomeUI
+            updateHomeUI();
             lucide.createIcons();
         }
 
@@ -496,18 +423,15 @@
          * Setup event listener global (delegation)
          */
         function setupGlobalListeners() {
-            // Listener untuk klik
             document.body.addEventListener('click', (e) => {
-                const target = e.target.closest('[data-action], [data-key], [data-clue-index]');
+                const target = e.target.closest('[data-action], [data-clue-index]');
                 if (!target) return;
 
-                const { action, key, clueIndex, cellIndex, id } = target.dataset;
+                const { action, clueIndex, cellIndex, id } = target.dataset;
 
-                // Aksi tombol
                 switch (action) {
-                    case 'load-puzzle':
-                        const puzzle = allPuzzles.find(p => p.id === id);
-                        if (puzzle) loadPuzzle(puzzle);
+                    case 'start-game': // Aksi baru
+                        startOrContinueGame();
                         break;
                     case 'go-home':
                         goToHome();
@@ -518,30 +442,34 @@
                     case 'toggle-info':
                         toggleInfoModal();
                         break;
-                    case 'share-wa':
-                        shareToWhatsApp();
-                        break;
-                    // --- TAMBAHAN: Aksi Koneksi TikTok ---
                     case 'connect-tiktok':
                         connectToTikTok();
                         break;
+                    case 'sim-send':
+                        const simCommentInput = document.getElementById('sim-comment');
+                        if (simCommentInput) {
+                            const comment = simCommentInput.value.trim();
+                            if (comment) {
+                                const simulatedMsg = { 
+                                    comment: comment, 
+                                    uniqueId: 'Simulator', 
+                                    profilePictureUrl: 'https://placehold.co/40x40/orange/white?text=S' 
+                                };
+                                // PERUBAHAN: Kirim ke handler komen
+                                handleComment(simulatedMsg);
+                                simCommentInput.value = '';
+                            }
+                        }
+                        break;
                 }
 
-                // PERUBAHAN: Keyboard Dihapus
-                // if (key) {
-                //     key === 'DEL' ? handleDelete() : handleKeyInput(key);
-                // }
-
-                // Klik sel jawaban
                 if (clueIndex !== undefined) {
                     setActiveCell(parseInt(clueIndex), parseInt(cellIndex));
                 }
             });
 
-            // Listener untuk keyboard fisik
             window.addEventListener('keydown', (e) => {
-                if (state.currentPuzzleId === null) return; // Jangan lakukan apa-apa di home
-                // Hapus e.preventDefault() agar bisa input di form tiktok
+                if (state.currentPuzzleId === null) return;
                 if (document.activeElement.tagName === 'INPUT') return;
                 
                 if (e.key.match(/^[a-z]$/i)) {
@@ -557,94 +485,81 @@
         // --- Fungsi Navigasi & Load ---
 
         /**
-         * Render semua pack dan puzzle di layar home
+         * PERUBAHAN: Update UI di Home Screen
          */
-        function renderHomeScreen() {
-            // 1. Daily Puzzle
-            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-            const dailyPuzzle = allPuzzles[dayOfYear % allPuzzles.length];
-            const dailyDate = new Date().toLocaleDateString('id-ID', {
-                weekday: 'long', day: 'numeric', month: 'long'
-            });
-            
-            dailyPuzzleContainer.innerHTML = `
-                <button data-action="load-puzzle" data-id="${dailyPuzzle.id}" class="w-full p-6 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-xl shadow-lg text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                    <span class="block text-sm font-medium opacity-80">${dailyDate}</span>
-                    <span class="block text-2xl font-semibold mt-1">Mainkan Puzzle Hari Ini!</span>
-                    <span class="block text-base mt-2 opacity-90">${dailyPuzzle.pack} #${dailyPuzzle.level}</span>
-                </button>
-            `;
+        function updateHomeUI() {
+            if (!startGameButton || !gameStatus) return;
 
-            // 2. Daftar Pack
-            const packs = allPuzzles.reduce((acc, puzzle) => {
-              if (!acc[puzzle.pack]) acc[puzzle.pack] = [];
-              acc[puzzle.pack].push(puzzle);
-              return acc;
-            }, {});
+            if (state.currentPuzzleId) {
+                const currentPuzzle = allPuzzles.find(p => p.id === state.currentPuzzleId);
+                if (currentPuzzle) {
+                    startGameButton.textContent = `Lanjutkan Level ${currentPuzzle.level}`;
+                    gameStatus.textContent = `Anda sedang di ${currentPuzzle.pack} #${currentPuzzle.level}`;
+                } else {
+                    // Reset jika data puzzle tidak valid
+                    state.currentPuzzleId = null;
+                    saveState(); // Simpan state yang sudah di-reset
+                    startGameButton.textContent = 'Mulai Main';
+                    gameStatus.textContent = 'Mulai dari Level 1';
+                }
+            } else {
+                startGameButton.textContent = 'Mulai Main';
+                gameStatus.textContent = 'Mulai dari Level 1';
+            }
 
-            packListContainer.innerHTML = Object.entries(packs).map(([packName, puzzles]) => `
-                <div>
-                    <h2 class="text-2xl font-semibold text-slate-800 mb-4">Pack: ${packName}</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        ${puzzles.map(puzzle => `
-                            <button data-action="load-puzzle" data-id="${puzzle.id}" class="p-5 bg-white rounded-lg shadow-md text-center transition-all duration-200 hover:shadow-lg hover:bg-orange-50">
-                                <span class="block text-2xl font-bold text-orange-600">${puzzle.level}</span>
-                                <span class="block text-sm text-slate-500 mt-1">${puzzle.author.split(' ')[0]}</span>
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('');
+            // Tombol Mulai hanya aktif jika TikTok terhubung
+            startGameButton.disabled = !tiktokConnection;
         }
-        
+
+        /**
+         * PERUBAHAN: Memulai atau melanjutkan game
+         */
+        function startOrContinueGame() {
+            if (!tiktokConnection) {
+                if (tiktokStatus) {
+                    tiktokStatus.textContent = 'Harap hubungkan TikTok terlebih dahulu!';
+                    tiktokStatus.classList.add('text-red-600');
+                }
+                return;
+            }
+
+            let puzzleToLoad;
+            if (state.currentPuzzleId) {
+                puzzleToLoad = allPuzzles.find(p => p.id === state.currentPuzzleId);
+            }
+            
+            // Jika tidak ada progres, atau progres tidak valid, mulai dari awal
+            if (!puzzleToLoad) {
+                puzzleToLoad = allPuzzles[0];
+                // Reset state untuk puzzle baru
+                state.currentPuzzleId = puzzleToLoad.id;
+                state.revealedMap = new Map();
+                state.isComplete = false;
+                state.freeHints = 1; // Reset hint
+                state.paidHints = 5;
+            }
+            
+            loadPuzzle(puzzleToLoad);
+        }
+
         /**
          * Kembali ke home
          */
         function goToHome() {
-            state.currentPuzzleId = null;
+            // state.currentPuzzleId jangan di-reset, agar bisa "Lanjutkan"
             state.puzzleData = null;
             state.activeCell = null;
+            if (completionModal) completionModal.classList.add('hidden'); // Tutup modal jika terbuka
             showPage('home');
+            updateHomeUI(); // Update tombol "Lanjutkan"
 
-            // --- PERUBAHAN: Jangan putuskan koneksi TikTok ---
-            // Sembunyikan panel chat di layar puzzle, tapi pertahankan koneksi
-            if (tiktokChatContainer) { // Cek jika elemen ada
-                tiktokChatContainer.classList.add('hidden');
-                tiktokChatContainer.classList.remove('flex'); 
-            }
-            // PERUBAHAN: Reset ketinggian clue list saat kembali ke home
-            /* * BLOK INI DIHAPUS KARENA h-full SEKARANG ADA DI HTML
-            if (clueListContainer) { // Cek jika elemen ada
-                clueListContainer.classList.remove('h-[50%]', 'h-full');
-            }
-            */
-
-            if (tiktokConnection) {
-                // Koneksi masih aktif, biarkan status "Terhubung"
-                // `tiktokStatus.textContent` sudah benar (misal: "Terhubung ke Room ID: ...")
-                if (connectButton) connectButton.disabled = true; // Tombol tetap nonaktif
-            } else {
-                // Tidak ada koneksi, set status default
-                if (tiktokStatus) tiktokStatus.textContent = 'Belum terhubung.';
-                if (connectButton) connectButton.disabled = false;
-            }
+            if (simContainer) simContainer.classList.add('hidden');
         }
 
         /**
          * Memuat puzzle baru
          */
-        function loadPuzzle(puzzle, isFromLoadState = false) { // <-- PERUBAHAN: Tambah parameter
-            // --- TAMBAHAN: Cek Koneksi TikTok ---
-            // PERUBAHAN: Hanya cek jika BUKAN dari loadState
-            if (!tiktokConnection && !isFromLoadState) { 
-                tiktokStatus.textContent = 'Harap hubungkan ke TikTok LIVE terlebih dahulu!';
-                tiktokStatus.classList.add('text-red-600');
-                // Scroll ke pesan error agar terlihat di mobile
-                tiktokStatus.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return; // Hentikan pemuatan puzzle
-            }
-            // --- Akhir Pengecekan ---
-
+        function loadPuzzle(puzzle) {
             // Cek apakah ini puzzle baru atau load dari storage
             if (state.currentPuzzleId !== puzzle.id) {
                 state.currentPuzzleId = puzzle.id;
@@ -657,142 +572,136 @@
             state.puzzleData = puzzle;
             state.activeCell = null;
 
+            if (completionModal) completionModal.classList.add('hidden'); // Selalu tutup modal saat load
+
             renderPuzzleUI();
             updateAllCells();
             checkCompletion(false); // Cek tanpa tampilkan modal
             
-            // --- PERUBAHAN: Atur ketinggian Clue & Chat secara dinamis ---
-            /*
-             * BLOK INI DIHAPUS UNTUK MENYEMBUNYIKAN CHAT SELAMANYA
-            if (tiktokConnection) {
-                tiktokChatContainer.classList.remove('hidden');
-                tiktokChatContainer.classList.add('flex'); // <--- PERUBAHAN
-                // Bagi layar 50/50 di mobile
-                clueListContainer.classList.add('h-[50%]');
-                clueListContainer.classList.remove('h-full');
+            // Tampilkan simulator jika tidak terhubung
+            if (!tiktokConnection) {
+                if (simContainer) simContainer.classList.remove('hidden');
             } else {
-                // Sembunyikan chat dan buat clue list penuh
-                tiktokChatContainer.classList.add('hidden');
-                tiktokChatContainer.classList.remove('flex');
-                clueListContainer.classList.remove('h-[50%]');
-                clueListContainer.classList.add('h-full');
+                if (simContainer) simContainer.classList.add('hidden');
             }
-            */
 
-            // Panel chat selalu tersembunyi
-            tiktokChatContainer.classList.add('hidden');
-            tiktokChatContainer.classList.remove('flex');
-            // Panel clue (sudah diatur di HTML ke h-full)
-            
-            // PERUBAHAN: Cek feedback untuk semua clue saat load
             checkAllClueFeedback();
-
             showPage('puzzle');
         }
 
+        /**
+         * PERUBAHAN: Memuat puzzle berikutnya
+         */
+        function loadNextPuzzle() {
+            if (!state.puzzleData) return;
+
+            const currentIndex = allPuzzles.findIndex(p => p.id === state.puzzleData.id);
+            const nextIndex = currentIndex + 1;
+
+            if (nextIndex < allPuzzles.length) {
+                // Masih ada level berikutnya
+                const nextPuzzle = allPuzzles[nextIndex];
+                // Reset state untuk puzzle baru
+                state.currentPuzzleId = nextPuzzle.id;
+                state.revealedMap = new Map();
+                state.isComplete = false;
+                state.freeHints = 1; // Reset hint
+                state.paidHints = 5;
+                saveState(); // Simpan ID puzzle baru
+                loadPuzzle(nextPuzzle);
+            } else {
+                // Semua puzzle selesai
+                if (allCompletePrompt) allCompletePrompt.classList.remove('hidden');
+                if (nextLevelPrompt) nextLevelPrompt.classList.add('hidden');
+                // Jangan panggil goToHome(), biarkan modal terbuka
+            }
+        }
+
+
         // --- Fungsi Render UI Puzzle ---
 
-        /**
-         * Render semua elemen UI untuk puzzle saat ini
-         */
         function renderPuzzleUI() {
             renderHeader();
             renderFactGrid();
             renderClueList();
-            // PERUBAHAN: renderKeyboard() Dihapus
-            // renderKeyboard();
             lucide.createIcons();
         }
 
-        /**
-         * Update header (nama pack, hint)
-         */
         function renderHeader() {
             if (!state.puzzleData) return;
-            headerPackName.textContent = `${state.puzzleData.pack} #${state.puzzleData.level}`;
+            if (headerPackName) {
+                headerPackName.textContent = `${state.puzzleData.pack} #${state.puzzleData.level}`;
+            }
             updateHintUI();
         }
         
-        /**
-         * Update UI Tombol Hint
-         */
         function updateHintUI() {
             const hasFree = state.freeHints > 0;
-            hintIconContainer.innerHTML = hasFree 
-                ? `<i data-lucide="wallet" class="w-4 h-4"></i>`
-                : `<i data-lucide="lightbulb" class="w-4 h-4"></i>`;
-            hintCount.textContent = hasFree ? state.freeHints : state.paidHints;
-            hintButton.disabled = state.freeHints === 0 && state.paidHints === 0;
+            if (hintIconContainer) {
+                hintIconContainer.innerHTML = hasFree 
+                    ? `<i data-lucide="wallet" class="w-4 h-4"></i>`
+                    : `<i data-lucide="lightbulb" class="w-4 h-4"></i>`;
+            }
+            if (hintCount) {
+                hintCount.textContent = hasFree ? state.freeHints : state.paidHints;
+            }
+            if (hintButton) {
+                hintButton.disabled = state.freeHints === 0 && state.paidHints === 0;
+            }
             lucide.createIcons();
         }
 
-        /**
-         * Render grid fakta (atas)
-         */
         function renderFactGrid() {
             if (!state.puzzleData) return;
-            // Huruf pertama dari setiap clue adalah "key letter"
             const keyLetters = new Set(state.puzzleData.clues.map(c => c.cells[0]));
 
-            factGridContainer.innerHTML = state.puzzleData.grid.map(row => `
-                <div class="flex justify-center space-x-0.5 md:space-x-1 mb-1">
-                    ${row.map(number => {
-                        if (number === null) {
-                            // PERUBAHAN: Dikecilkan
-                            return `<div class="w-4 h-6 md:w-5 md:h-7"></div>`; // Spasi
-                        }
-                        const isKey = keyLetters.has(number);
-                        return `
-                            <div class="flex flex-col items-center justify-center w-4 h-6 md:w-5 md:h-7">
-                                <div data-number="${number}" class="cell-number-${number} w-full h-full border-b-2 flex items-center justify-center text-xs md:text-sm font-semibold uppercase text-slate-900 ${isKey ? 'fact-cell-highlight border-orange-500' : 'border-slate-300'}">
-                                    <!-- Huruf oleh JS -->
+            if (factGridContainer) {
+                factGridContainer.innerHTML = state.puzzleData.grid.map(row => `
+                    <div class="flex justify-center space-x-0.5 md:space-x-1 mb-1">
+                        ${row.map(number => {
+                            if (number === null) {
+                                return `<div class="w-4 h-6 md:w-5 md:h-7"></div>`;
+                            }
+                            const isKey = keyLetters.has(number);
+                            return `
+                                <div class="flex flex-col items-center justify-center w-4 h-6 md:w-5 md:h-7">
+                                    <div data-number="${number}" class="cell-number-${number} w-full h-full border-b-2 flex items-center justify-center text-xs md:text-sm font-semibold uppercase text-slate-900 ${isKey ? 'fact-cell-highlight border-orange-500' : 'border-slate-300'}">
+                                    </div>
+                                    <span class="text-[8px] md:text-[10px] text-slate-500 mt-0.5">${number}</span>
                                 </div>
-                                <span class="text-[8px] md:text-[10px] text-slate-500 mt-0.5">${number}</span>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `).join('');
+                            `;
+                        }).join('')}
+                    </div>
+                `).join('');
+            }
         }
 
-        /**
-         * Render daftar clue dan kotak jawaban
-         */
         function renderClueList() {
             if (!state.puzzleData) return;
-            clueListContainer.innerHTML = state.puzzleData.clues.map((clue, clueIndex) => `
-                <div class="p-2 md:p-3 bg-white rounded-lg shadow-sm">
-                    <p class="text-xs md:text-sm text-slate-700 mb-2">${clue.text}</p>
-                    <div class="flex flex-wrap gap-1 md:gap-1.5">
-                        ${clue.cells.map((number, cellIndex) => `
-                            <div class="flex flex-col items-center">
-                                <div data-clue-index="${clueIndex}" data-cell-index="${cellIndex}" data-number="${number}" class="cell-number-${number} w-6 h-7 md:w-7 md:h-8 rounded-md flex items-center justify-center text-base md:text-lg font-semibold uppercase bg-white shadow-sm border border-slate-300 cursor-pointer">
-                                    <!-- Huruf oleh JS -->
+            if (clueListContainer) {
+                // PERUBAHAN: Tata letak grid diatur di HTML (grid-cols-2 md:grid-cols-2 lg:grid-cols-3)
+                clueListContainer.innerHTML = state.puzzleData.clues.map((clue, clueIndex) => `
+                    <div class="p-2 md:p-3 bg-white rounded-lg shadow-sm">
+                        <p class="text-xs md:text-sm text-slate-700 mb-2">${clue.text}</p>
+                        <div class="flex flex-wrap gap-1 md:gap-1.5">
+                            ${clue.cells.map((number, cellIndex) => `
+                                <div class="flex flex-col items-center">
+                                    <div data-clue-index="${clueIndex}" data-cell-index="${cellIndex}" data-number="${number}" class="cell-number-${number} w-6 h-7 md:w-7 md:h-8 rounded-md flex items-center justify-center text-base md:text-lg font-semibold uppercase bg-white shadow-sm border border-slate-300 cursor-pointer">
+                                    </div>
+                                    <span class="text-[9px] md:text-xs text-slate-500 mt-1">${number}</span>
                                 </div>
-                                <span class="text-[9px] md:text-xs text-slate-500 mt-1">${number}</span>
-                            </div>
-                        `).join('')}
+                            `).join('')}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
         }
         
-        /**
-         * Render keyboard virtual
-         */
-        // PERUBAHAN: Fungsi renderKeyboard() Dihapus
-        /*
-        function renderKeyboard() {
-            ...
-        }
-        */
+        // --- Fungsi Koneksi TikTok ---
 
-        // --- TAMBAHAN: Fungsi Koneksi TikTok ---
-
-        /**
-         * Menghubungkan ke server backend TikTok
-         */
         function connectToTikTok() {
+            if (!tiktokUsername || !tiktokStatus || !connectButton) return;
+
             const uniqueId = tiktokUsername.value;
             if (!uniqueId) {
                 tiktokStatus.textContent = 'Nama pengguna tidak boleh kosong!';
@@ -804,123 +713,96 @@
             tiktokStatus.classList.remove('text-red-600');
             connectButton.disabled = true;
 
-            const backendUrl = "https://tiktok-server-production-e573.up.railway.app"; // URL backend baru
+            const backendUrl = "https://tiktok-server-production-e573.up.railway.app";
             tiktokConnection = new TikTokIOConnection(backendUrl);
 
             tiktokConnection.connect(uniqueId, {
-                enableExtendedGiftInfo: true // Opsi dari app.js Anda
+                enableExtendedGiftInfo: true
             }).then(state => {
                 tiktokStatus.textContent = `Terhubung ke Room ID: ${state.roomId}`;
                 tiktokStatus.classList.remove('text-red-600');
                 tiktokStatus.classList.add('text-green-600');
+                if (startGameButton) startGameButton.disabled = false; // Aktifkan tombol Mulai
                 setupTikTokListeners();
             }).catch(errorMessage => {
                 tiktokStatus.textContent = `Gagal terhubung: ${errorMessage}`;
                 tiktokStatus.classList.add('text-red-600');
                 connectButton.disabled = false;
+                if (startGameButton) startGameButton.disabled = true; // Tetap nonaktif
                 tiktokConnection = null;
             });
         }
 
-        /**
-         * Mengatur listener untuk event dari TikTok
-         */
         function setupTikTokListeners() {
-            chatLog.innerHTML = '<p class="text-green-600 text-center">Terhubung! Menunggu komentar...</p>';
-            
-            // Tampilkan panel chat jika di layar puzzle
-            /*
-             * BLOK INI DIHAPUS UNTUK MENYEMBUNYIKAN CHAT
-            if (state.currentPuzzleId) {
-                 tiktokChatContainer.classList.remove('hidden');
-                 tiktokChatContainer.classList.add('flex'); // <--- PERUBAHAN
+            if (chatLog) {
+                chatLog.innerHTML = '<p class="text-green-600 text-center">Terhubung! Menunggu komentar...</p>';
             }
-            */
-
-            tiktokConnection.on('chat', handleTikTokComment);
+            
+            tiktokConnection.on('chat', handleComment); // Kirim ke handler komen
 
             tiktokConnection.on('disconnect', () => {
-                tiktokStatus.textContent = 'Koneksi terputus.';
-                tiktokStatus.classList.add('text-red-600');
-                connectButton.disabled = false;
+                if (tiktokStatus) tiktokStatus.textContent = 'Koneksi terputus.';
+                if (tiktokStatus) tiktokStatus.classList.add('text-red-600');
+                if (connectButton) connectButton.disabled = false;
+                if (startGameButton) startGameButton.disabled = true; // Nonaktifkan tombol Mulai
                 tiktokConnection = null;
             });
 
             tiktokConnection.on('streamEnd', () => {
-                tiktokStatus.textContent = 'Siaran LIVE telah berakhir.';
-                tiktokStatus.classList.add('text-red-600');
-                connectButton.disabled = false;
+                if (tiktokStatus) tiktokStatus.textContent = 'Siaran LIVE telah berakhir.';
+                if (tiktokStatus) tiktokStatus.classList.add('text-red-600');
+                if (connectButton) connectButton.disabled = false;
+                if (startGameButton) startGameButton.disabled = true; // Nonaktifkan tombol Mulai
                 tiktokConnection = null;
             });
         }
 
         /**
-         * Menangani komentar yang masuk dari TikTok
+         * PERUBAHAN: Handler terpusat untuk komen (TikTok & Simulasi)
          */
-        function handleTikTokComment(msg) {
+        function handleComment(msg) {
             const comment = msg.comment.trim();
             let isAnswer = false;
 
-            // Jangan proses jika game belum dimulai atau sudah selesai
+            // 1. Cek untuk perintah !next
+            if (state.isComplete && comment.trim().toUpperCase() === '!NEXT') {
+                loadNextPuzzle();
+                return; // Selesai
+            }
+
+            // 2. Cek untuk jawaban puzzle
             if (state.puzzleData && !state.isComplete) {
-                // Format jawaban: {nomor}. {huruf}
                 const match = comment.match(/^(\d+)\s*\.\s*([A-Z])$/i);
 
                 if (match) {
                     const number = parseInt(match[1]);
                     const letter = match[2].toUpperCase();
                     
-                    // Cek apakah nomor tersebut ada di puzzle
                     const exists = state.puzzleData.clues.some(c => c.cells.includes(number));
                     
                     if (exists) {
                         isAnswer = true;
-                        // Cek apakah jawabannya berbeda
                         if (state.revealedMap.get(number) !== letter) {
                             state.revealedMap.set(number, letter);
-                            updateAllCells(number); // Update UI
-                            checkFeedbackForNumber(number); // <-- PERUBAHAN: Tambah feedback
-                            checkCompletion();      // Cek kemenangan
-                            saveState();            // Simpan progres
+                            updateAllCells(number);
+                            checkFeedbackForNumber(number);
+                            checkCompletion();
+                            saveState();
                         }
                     }
                 }
             }
 
-            addCommentToLog(msg, isAnswer);
+            // 3. Tambahkan ke log (jika perlu)
+            // addCommentToLog(msg, isAnswer); // Dihilangkan sesuai permintaan
         }
 
-        /**
-         * Menambahkan komentar ke panel chat di UI
-         */
-        function addCommentToLog(msg, isAnswer) {
-            const p = document.createElement('p');
-            p.classList.add('break-words');
-            
-            // Sanitasi sederhana
-            const sanitizedComment = msg.comment.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            
-            p.innerHTML = `
-                <img src="${msg.profilePictureUrl}" class="w-5 h-5 rounded-full inline-block mr-1.5 align-middle">
-                <b class="text-blue-600 align-middle">${msg.uniqueId}:</b>
-                <span class="align-middle">${sanitizedComment}</span>
-            `;
-
-            if (isAnswer) {
-                p.classList.add('bg-green-100', 'p-1', 'rounded-md', 'font-medium');
-            }
-
-            chatLog.appendChild(p);
-            // Auto-scroll ke bawah
-            chatLog.scrollTop = chatLog.scrollHeight;
-        }
+        // Dihapus karena chat log tidak terlihat
+        // function addCommentToLog(msg, isAnswer) { ... }
 
 
         // --- Fungsi Logika Game ---
 
-        /**
-         * Menangani input huruf (fisik atau virtual)
-         */
         function handleKeyInput(letter) {
             if (!state.activeCell || state.isComplete) return;
 
@@ -930,15 +812,12 @@
             
             state.revealedMap.set(number, letter.toUpperCase());
             updateAllCells(number);
-            checkFeedbackForNumber(number); // <-- PERUBAHAN: Tambah feedback
+            checkFeedbackForNumber(number);
             autoAdvanceActiveCell();
             checkCompletion();
             saveState();
         }
 
-        /**
-         * Menangani tombol delete
-         */
         function handleDelete() {
             if (!state.activeCell || state.isComplete) return;
 
@@ -948,31 +827,26 @@
             let numberToClearFeedback;
             
             if (cellIndex > 0) {
-                // Selalu hapus huruf di sel SEBELUMNYA
                 const prevCellIndex = cellIndex - 1;
                 numberToUpdate = clue.cells[prevCellIndex];
-                numberToClearFeedback = clue.cells[cellIndex]; // Nomor sel yang kita tinggalkan
+                numberToClearFeedback = clue.cells[cellIndex];
                 state.revealedMap.delete(numberToUpdate);
                 setActiveCell(clueIndex, prevCellIndex);
             } else {
-                // Kita di sel pertama, hapus saja
                 numberToUpdate = clue.cells[cellIndex];
                 numberToClearFeedback = numberToUpdate;
                 state.revealedMap.delete(numberToUpdate);
             }
             
             updateAllCells(numberToUpdate);
-            checkFeedbackForNumber(numberToUpdate); // <-- PERUBAHAN: Tambah feedback
+            checkFeedbackForNumber(numberToUpdate);
             if (numberToClearFeedback !== numberToUpdate) {
-                checkFeedbackForNumber(numberToClearFeedback); // Cek juga sel yang baru saja kita tinggalkan
+                checkFeedbackForNumber(numberToClearFeedback);
             }
             state.isComplete = false;
             saveState();
         }
         
-        /**
-         * Memperbarui semua sel di UI (grid dan clue) yang memiliki angka tertentu
-         */
         function updateAllCells(specificNumber = null) {
             const update = (number, letter) => {
                 const cells = document.querySelectorAll(`.cell-number-${number}`);
@@ -985,37 +859,26 @@
                 const letter = state.revealedMap.get(specificNumber) || '';
                 update(specificNumber, letter);
             } else {
-                // Update semua sel (saat load)
                 state.revealedMap.forEach((letter, number) => {
                     update(number, letter);
                 });
             }
         }
         
-        /**
-         * Mengatur sel jawaban yang aktif secara visual
-         */
         function setActiveCell(clueIndex, cellIndex) {
-            // Hapus styleaktif dari sel lama
             const oldActive = document.querySelector('.cell-active');
             if (oldActive) {
                 oldActive.classList.remove('cell-active');
             }
 
-            // Tambah style aktif ke sel baru
             const newActive = document.querySelector(`[data-clue-index="${clueIndex}"][data-cell-index="${cellIndex}"]`);
             if (newActive) {
                 newActive.classList.add('cell-active');
                 state.activeCell = { clueIndex, cellIndex };
-                
-                // Scroll ke sel jika perlu
                 newActive.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
 
-        /**
-         * Pindah otomatis ke sel berikutnya
-         */
         function autoAdvanceActiveCell() {
             if (!state.activeCell) return;
             
@@ -1023,68 +886,72 @@
             const clue = state.puzzleData.clues[clueIndex];
 
             if (cellIndex < clue.cells.length - 1) {
-                // Pindah ke huruf berikutnya
                 setActiveCell(clueIndex, cellIndex + 1);
             } else if (clueIndex < state.puzzleData.clues.length - 1) {
-                // Pindah ke clue berikutnya
                 setActiveCell(clueIndex + 1, 0);
             } else {
-                // Puzzle selesai, hilangkan fokus
                 const oldActive = document.querySelector('.cell-active');
                 if (oldActive) oldActive.classList.remove('cell-active');
                 state.activeCell = null;
             }
         }
 
-        /**
-         * Cek apakah puzzle sudah selesai
-         */
         function checkCompletion(showModal = true) {
             if (!state.puzzleData) return;
 
             for (const clue of state.puzzleData.clues) {
                 const userAnswer = clue.cells.map(num => state.revealedMap.get(num) || '').join('');
                 if (userAnswer !== clue.answer) {
-                    // PERBAIKAN: Logika yang salah sebelumnya
                     state.isComplete = false; 
                     return;
                 }
-            } // <-- PERBAIKAN: Kurung kurawal '}' yang hilang ditambahkan di sini
+            }
 
             // Jika sampai sini, semua jawaban benar
             state.isComplete = true;
-            // Tandai semua clue sebagai selesai (untuk jaga-jaga)
-            checkAllClueFeedback();
+            checkAllClueFeedback(); // Tampilkan semua ceklis
+            saveState(); // Simpan status 'isComplete'
+
             if (showModal) {
-                // PERUBAHAN: Ganti textContent dengan innerHTML untuk bold
                 const fullFact = state.puzzleData.fact;
                 const secret = state.puzzleData.secretPhrase;
 
-                // Ganti bagian secret phrase dengan versi bold
                 const highlightedFact = fullFact.replace(
                     secret, 
                     `<strong class="text-orange-700">${secret}</strong>`
                 );
 
-                completionFact.innerHTML = `"${highlightedFact}"`; // Gunakan .innerHTML
+                if (completionFact) {
+                    completionFact.innerHTML = `"${highlightedFact}"`;
+                }
                 
-                completionModal.classList.remove('hidden');
+                // Cek apakah ini level terakhir
+                const currentIndex = allPuzzles.findIndex(p => p.id === state.puzzleData.id);
+                if (currentIndex === allPuzzles.length - 1) {
+                    // Level terakhir
+                    if (allCompletePrompt) allCompletePrompt.classList.remove('hidden');
+                    if (nextLevelPrompt) nextLevelPrompt.classList.add('hidden');
+                } else {
+                    // Masih ada level
+                    if (allCompletePrompt) allCompletePrompt.classList.add('hidden');
+                    if (nextLevelPrompt) nextLevelPrompt.classList.remove('hidden');
+                }
+
+                if (completionModal) {
+                    completionModal.classList.remove('hidden');
+                }
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             }
-            saveState();
         }
 
-        /**
-         * Menggunakan hint
-         */
         function useHint() {
             if (state.isComplete || (state.freeHints === 0 && state.paidHints === 0)) return;
 
             let hintApplied = false;
-            let number; // Simpan nomor yang di-hint
+            let number;
             for (const clue of state.puzzleData.clues) {
                 for (let i = 0; i < clue.cells.length; i++) {
-                    number = clue.cells[i]; // Simpan nomor
+                    number = clue.cells[i];
                     const correctLetter = clue.answer[i];
                     const userLetter = state.revealedMap.get(number);
 
@@ -1105,19 +972,36 @@
                     state.paidHints -= 1;
                 }
                 updateHintUI();
-                if (number) { // Cek jika 'number' valid
-                    checkFeedbackForNumber(number); // <-- PERUBAHAN: Tambah feedback
+                if (number) {
+                    checkFeedbackForNumber(number);
                 }
                 checkCompletion();
                 saveState();
             }
         }
+        
+        function shareToWhatsApp() {
+            // Fungsi ini tidak lagi dipanggil, tapi tidak apa-apa
+            if (!state.puzzleData) return;
+            const text = `Saya baru saja menyelesaikan puzzle Crostic dan menemukan fakta ini:\n\n"${state.puzzleData.fact}"\n\nCoba main juga!`;
+            const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
 
-        // --- PERUBAHAN BARU: FUNGSI FEEDBACK ---
+        // --- Fungsi Modal & Penyimpanan ---
 
-        /**
-         * Menjalankan cek feedback untuk semua clue (dipakai saat load)
-         */
+        function toggleInfoModal() {
+            if (!infoModal) return;
+            if (state.puzzleData) {
+                if (infoPack) infoPack.textContent = state.puzzleData.pack;
+                if (infoLevel) infoLevel.textContent = state.puzzleData.level;
+                if (infoAuthor) infoAuthor.textContent = state.puzzleData.author;
+            }
+            infoModal.classList.toggle('hidden');
+        }
+
+        // --- FUNGSI FEEDBACK ---
+
         function checkAllClueFeedback() {
             if (!state.puzzleData) return;
             state.puzzleData.clues.forEach((clue, index) => {
@@ -1125,9 +1009,6 @@
             });
         }
 
-        /**
-         * Menemukan semua clue yang terpengaruh oleh 1 nomor, lalu cek feedback-nya
-         */
         function checkFeedbackForNumber(number) {
             if (!state.puzzleData) return;
             state.puzzleData.clues.forEach((clue, index) => {
@@ -1137,70 +1018,72 @@
             });
         }
 
-        /**
-         * Logika inti untuk memeriksa 1 clue dan menerapkan CSS
-         */
         function checkFeedbackForClue(clueIndex) {
-            if (!state.puzzleData) return;
+            if (!state.puzzleData || !clueListContainer) return;
 
             const clue = state.puzzleData.clues[clueIndex];
             const clueCells = clueListContainer.querySelectorAll(`[data-clue-index="${clueIndex}"] [data-cell-index]`);
             
-            if (clueCells.length === 0) return; // Belum di-render
+            if (clueCells.length === 0) return;
 
             let userAnswer = "";
             let isComplete = true;
 
-            // 1. Bangun jawaban pengguna dan cek kelengkapan
             for (const num of clue.cells) {
                 const userLetter = state.revealedMap.get(num);
                 if (!userLetter) {
                     isComplete = false;
                 }
-                userAnswer += userLetter || " "; // Pakai spasi jika kosong
+                userAnswer += userLetter || " ";
             }
 
-            // 2. Terapkan style berdasarkan status
             if (isComplete) {
                 if (userAnswer === clue.answer) {
-                    // KATA BENAR: Beri tanda ceklis dan style benar
                     clueCells.forEach(cell => {
                         cell.classList.add('cell-correct', 'cell-complete');
                         cell.classList.remove('cell-wrong', 'cell-wrong-word');
                     });
                 } else {
-                    // KATA SALAH: Beri latar merah
                     clueCells.forEach(cell => {
                         cell.classList.add('cell-wrong-word');
                         cell.classList.remove('cell-correct', 'cell-wrong', 'cell-complete');
                     });
                 }
             } else {
-                // KATA BELUM SELESAI: Cek huruf per huruf
                 clueCells.forEach((cell, i) => {
                     const num = clue.cells[i];
                     const userLetter = state.revealedMap.get(num);
                     const correctLetter = clue.answer[i];
 
-                    // Selalu hapus status kata (latar merah) dan status selesai (ceklis)
                     cell.classList.remove('cell-wrong-word', 'cell-complete');
 
                     if (userLetter) {
                         if (userLetter === correctLetter) {
-                            // HURUF BENAR
                             cell.classList.add('cell-correct');
                             cell.classList.remove('cell-wrong');
                         } else {
-                            // HURUF SALAH
                             cell.classList.add('cell-wrong');
                             cell.classList.remove('cell-correct');
                         }
                     } else {
-                        // KOSONG
                         cell.classList.remove('cell-correct', 'cell-wrong');
                     }
                 });
             }
+        }
+
+        /**
+         * Simpan progres ke localStorage
+         */
+        function saveState() {
+            const dataToSave = {
+                currentPuzzleId: state.currentPuzzleId,
+                revealedMap: Array.from(state.revealedMap.entries()),
+                freeHints: state.freeHints,
+                paidHints: state.paidHints,
+                isComplete: state.isComplete,
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
         }
 
         /**
@@ -1220,13 +1103,15 @@
                         state.paidHints = parsedData.paidHints ?? 5;
                         state.isComplete = parsedData.isComplete ?? false;
                         
-                        loadPuzzle(puzzle, true); // <-- PERUBAHAN: Beri tahu ini dari loadState
+                        // Jangan load puzzle di sini, biarkan user klik "Lanjutkan"
+                        // loadPuzzle(puzzle, true); 
                     }
                 } catch (e) {
                     console.error("Gagal memuat progres:", e);
                     localStorage.removeItem(STORAGE_KEY);
                 }
             }
+            updateHomeUI(); // Panggil ini setelah load state selesai
         }
         
         // --- Mulai Aplikasi ---
