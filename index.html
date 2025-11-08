@@ -738,15 +738,16 @@
                 <div class="flex justify-center space-x-0.5 md:space-x-1 mb-1">
                     ${row.map(number => {
                         if (number === null) {
-                            return `<div class="w-5 h-7 md:w-6 md:h-9"></div>`; // Spasi
+                            // PERUBAHAN: Dikecilkan
+                            return `<div class="w-4 h-6 md:w-5 md:h-7"></div>`; // Spasi
                         }
                         const isKey = keyLetters.has(number);
                         return `
-                            <div class="flex flex-col items-center justify-center w-5 h-7 md:w-6 md:h-9">
-                                <div data-number="${number}" class="cell-number-${number} w-full h-full border-b-2 flex items-center justify-center text-sm md:text-base font-semibold uppercase text-slate-900 ${isKey ? 'fact-cell-highlight border-orange-500' : 'border-slate-300'}">
+                            <div class="flex flex-col items-center justify-center w-4 h-6 md:w-5 md:h-7">
+                                <div data-number="${number}" class="cell-number-${number} w-full h-full border-b-2 flex items-center justify-center text-xs md:text-sm font-semibold uppercase text-slate-900 ${isKey ? 'fact-cell-highlight border-orange-500' : 'border-slate-300'}">
                                     <!-- Huruf oleh JS -->
                                 </div>
-                                <span class="text-[9px] md:text-[10px] text-slate-500 mt-0.5">${number}</span>
+                                <span class="text-[8px] md:text-[10px] text-slate-500 mt-0.5">${number}</span>
                             </div>
                         `;
                     }).join('')}
@@ -760,15 +761,15 @@
         function renderClueList() {
             if (!state.puzzleData) return;
             clueListContainer.innerHTML = state.puzzleData.clues.map((clue, clueIndex) => `
-                <div class="p-3 bg-white rounded-lg shadow-sm">
-                    <p class="text-sm md:text-base text-slate-700 mb-3">${clue.text}</p>
-                    <div class="flex flex-wrap gap-1.5 md:gap-2">
+                <div class="p-2 md:p-3 bg-white rounded-lg shadow-sm">
+                    <p class="text-xs md:text-sm text-slate-700 mb-2">${clue.text}</p>
+                    <div class="flex flex-wrap gap-1 md:gap-1.5">
                         ${clue.cells.map((number, cellIndex) => `
                             <div class="flex flex-col items-center">
-                                <div data-clue-index="${clueIndex}" data-cell-index="${cellIndex}" data-number="${number}" class="cell-number-${number} w-7 h-8 md:w-8 md:h-9 rounded-md flex items-center justify-center text-lg md:text-xl font-semibold uppercase bg-white shadow-sm border border-slate-300 cursor-pointer">
+                                <div data-clue-index="${clueIndex}" data-cell-index="${cellIndex}" data-number="${number}" class="cell-number-${number} w-6 h-7 md:w-7 md:h-8 rounded-md flex items-center justify-center text-base md:text-lg font-semibold uppercase bg-white shadow-sm border border-slate-300 cursor-pointer">
                                     <!-- Huruf oleh JS -->
                                 </div>
-                                <span class="text-[10px] md:text-xs text-slate-500 mt-1">${number}</span>
+                                <span class="text-[9px] md:text-xs text-slate-500 mt-1">${number}</span>
                             </div>
                         `).join('')}
                     </div>
