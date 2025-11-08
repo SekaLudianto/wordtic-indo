@@ -157,8 +157,8 @@
         <div class="flex-1 w-full max-w-3xl mx-auto px-4 overflow-y-hidden pb-4 flex flex-col md:flex-row md:gap-4">
             
             <!-- Kolom Clue -->
-            <!-- PERUBAHAN: Menghapus h-[50%] dari sini agar bisa diatur oleh JS -->
-            <div id="clue-list-container" class="w-full h-full md:w-2/3 overflow-y-auto space-y-4 pr-2">
+            <!-- PERUBAHAN: Mengubah tata letak menjadi 2 kolom di mobile (grid-cols-2) -->
+            <div id="clue-list-container" class="w-full h-full md:w-2/3 overflow-y-auto grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 pr-2">
                 <!-- Daftar Clue di-generate oleh JS -->
             </div>
 
@@ -288,7 +288,10 @@
             id: 'menarik_1',
             pack: 'Menarik',
             level: 1,
-            fact: 'BURUNG KUKUK DIKENAL SUKA BERTELUR DI SARANG BURUNG LAIN',
+            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
+            secretPhrase: 'BURUNG KUKUK DIKENAL SUKA BERTELUR DI SARANG BURUNG LAIN',
+            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
+            fact: 'Spesies burung kukuk tertentu memiliki perilaku unik yang disebut parasitisme induk. Ini berarti BURUNG KUKUK DIKENAL SUKA BERTELUR DI SARANG BURUNG LAIN, menipu burung inang untuk membesarkan anaknya.',
             author: 'A. Penulis',
             grid: [
               [1, 2, 3, 4, 5, 6, null, 7, 2, 7, 2, 7],
@@ -311,7 +314,10 @@
             id: 'sejarah_1',
             pack: 'Sejarah',
             level: 1,
-            fact: 'CANDI BOROBUDUR ADALAH MONUMEN BUDDHA TERBESAR DI DUNIA',
+            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
+            secretPhrase: 'CANDI BOROBUDUR ADALAH MONUMEN BUDDHA TERBESAR DI DUNIA',
+            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
+            fact: 'Dibangun pada abad ke-9, CANDI BOROBUDUR ADALAH MONUMEN BUDDHA TERBESAR DI DUNIA dan diakui sebagai Situs Warisan Dunia UNESCO.',
             author: 'B. Sejarawan',
             grid: [
               [1, 2, 3, 4, 9, null, 1, 5, 6, 5, 1, 2, 4, 7, 6],
@@ -334,7 +340,10 @@
             "id": "sains_1",
             "pack": "Sains",
             "level": 1,
-            "fact": "SIDIK JARI SETIAP ORANG BERBEDA DAN UNIK",
+            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
+            "secretPhrase": "SIDIK JARI SETIAP ORANG BERBEDA DAN UNIK",
+            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
+            "fact": "Pola pada kulit jari manusia, atau SIDIK JARI SETIAP ORANG BERBEDA DAN UNIK, bahkan untuk kembar identik sekalipun.",
             "author": "C. Saintis",
             "grid": [
               [1, 2, 3, 2, 4, null, 5, 6, 7, 2],
@@ -358,7 +367,10 @@
             "id": "teknologi_1",
             "pack": "Teknologi",
             "level": 1,
-            "fact": "INTERNET MENGHUBUNGKAN JUTAAN KOMPUTER DI SELURUH DUNIA",
+            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
+            "secretPhrase": "INTERNET MENGHUBUNGKAN JUTAAN KOMPUTER DI SELURUH DUNIA",
+            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
+            "fact": "Apa yang dimulai sebagai proyek militer AS (ARPANET) kini telah berevolusi menjadi INTERNET MENGHUBUNGKAN JUTAAN KOMPUTER DI SELURUH DUNIA secara instan.",
             "author": "D. Programer",
             "grid": [
               [1, 2, 3, 4, 5, 2, 4, 3],
@@ -386,7 +398,10 @@
             "id": "sejarah_2",
             "pack": "Sejarah",
             "level": 2,
-            "fact": "KOMODO ADALAH KADAL TERBESAR YANG HANYA ADA DI INDONESIA",
+            // PERUBAHAN: 'fact' diubah namanya menjadi 'secretPhrase'
+            "secretPhrase": "KOMODO ADALAH KADAL TERBESAR YANG HANYA ADA DI INDONESIA",
+            // PERUBAHAN: 'fact' sekarang adalah kalimat panjangnya
+            "fact": "Hewan purba yang sering disebut \"dinosaurus terakhir\", KOMODO ADALAH KADAL TERBESAR YANG HANYA ADA DI INDONESIA, khususnya di Kepulauan Sunda Kecil.",
             "author": "B. Sejarawan",
             "grid": [
               [1, 2, 3, 2, 4, 2, null, 5, 4, 5, 6, 5, 7],
@@ -1040,7 +1055,18 @@
             // Tandai semua clue sebagai selesai (untuk jaga-jaga)
             checkAllClueFeedback();
             if (showModal) {
-                completionFact.textContent = `"${state.puzzleData.fact}"`;
+                // PERUBAHAN: Ganti textContent dengan innerHTML untuk bold
+                const fullFact = state.puzzleData.fact;
+                const secret = state.puzzleData.secretPhrase;
+
+                // Ganti bagian secret phrase dengan versi bold
+                const highlightedFact = fullFact.replace(
+                    secret, 
+                    `<strong class="text-orange-700">${secret}</strong>`
+                );
+
+                completionFact.innerHTML = `"${highlightedFact}"`; // Gunakan .innerHTML
+                
                 completionModal.classList.remove('hidden');
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             }
